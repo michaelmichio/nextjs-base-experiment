@@ -1,0 +1,37 @@
+@use "sass:math";
+
+/**
+ * Converts HEX color to RGB channels.
+ * @param {Color} $hex - A hex color (e.g. #ffffff)
+ * @param {Boolean} $as-string - Whether to return as comma-separated string
+ * @return {List|String} RGB components
+ */
+@function hexToRGB($hex, $as-string: false) {
+  $r: red($hex);
+  $g: green($hex);
+  $b: blue($hex);
+
+  @return if($as-string, "#{$r}, #{$g}, #{$b}", $r, $g, $b);
+}
+
+/**
+ * Chooses the best contrast color (white/black) for given background.
+ * Uses luminance algorithm based on WCAG 2.0 standards.
+ * @param {Color} $color - Background color
+ * @param {Color} $white - Light color (default: white)
+ * @param {Color} $black - Dark color (default: black)
+ * @return {Color} The better contrast color
+ */
+@function colorContrast($color, $white: white, $black: black) {
+  $brightness: math.div(
+    (red($color) * 299 + green($color) * 587 + blue($color) * 114),
+    1000
+  );
+
+  $white-brightness: math.div(
+    (red($white) * 299 + green($white) * 587 + blue($white) * 114),
+    1000
+  );
+
+  @return if($brightness < math.div($white-brightness, 2), $white, $black);
+}
