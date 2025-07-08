@@ -1,2 +1,6 @@
 @import "tailwindcss" prefix(tw);
 @import "../styles/styles.scss";
+
+body {
+  background-color: var(--white) !important;
+}
