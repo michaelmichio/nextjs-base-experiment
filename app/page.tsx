@@ -8,7 +8,7 @@ export default function Home() {
     >
       <h2 className="tw:text-xl tw:font-semibold" style={{ color: "var(--black)" }}>Tailwind Heading</h2>
       <p className="lead">Bootstrap Lead</p>
-      <p className="tw:text-sm">Tailwind Small Text</p>
+      <p className="tw:text-sm fw-800">Tailwind Small Text</p>
       <Button>Bootstrap Button</Button>
     </div>
   );
