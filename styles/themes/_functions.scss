@@ -7,11 +7,20 @@
  * @return {List|String} RGB components
  */
 @function hexToRGB($hex, $as-string: false) {
+  @if type-of($hex) != "color" {
+    @warn "hexToRGB() expects a color value, got: #{$hex}";
+    @return 0, 0, 0;
+  }
+
   $r: red($hex);
   $g: green($hex);
   $b: blue($hex);
 
-  @return if($as-string, "#{$r}, #{$g}, #{$b}", $r, $g, $b);
+  @if $as-string {
+    @return "#{$r}, #{$g}, #{$b}";
+  } @else {
+    @return $r, $g, $b;
+  }
 }
 
 /**
@@ -34,4 +43,21 @@
   );
 
   @return if($brightness < math.div($white-brightness, 2), $white, $black);
+}
+
+@function index-to-key($map, $index) {
+  $keys: map-keys($map);
+  @return nth($keys, $index);
+}
+
+@function resolve-mix-color($theme-colors-mode, $mix, $color-group) {
+  $mode-group: map-get($theme-colors-mode, $color-group);
+  @if $mode-group == null {
+    @warn "Color group `#{$color-group}` not found in theme-colors-mode.";
+    @return null;
+  }
+  $mode-key: index-to-key($mix, 1);
+  $color-key: index-to-key($mix, 2);
+
+  @return map-get(map-get($mode-group, $mode-key), $color-key);
 }
