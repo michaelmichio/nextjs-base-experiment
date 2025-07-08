@@ -70,12 +70,13 @@
  * @param {Map} $percentage-black-hue - Map of hue names to lighten percentages.
  */
 @mixin theme-mode-light($black-color, $percentage-black-hue) {
-  @each $color-hue, $percent in $percentage-black-hue {
-    --black-#{$color-hue}: #{mix(white, $black-color, $percent)};
-  }
-
-  @each $color-hue, $percent in $percentage-black-hue {
-    --black-#{$color-hue}-rgb: #{hexToRGB(mix(white, $black-color, $percent))};
+  body {
+    @each $color-hue, $percent in $percentage-black-hue {
+      --black-#{$color-hue}: #{mix(white, $black-color, $percent)};
+      --black-#{$color-hue}-rgb: #{hexToRGB(
+          mix(white, $black-color, $percent)
+        )};
+    }
   }
 }
 
@@ -87,20 +88,20 @@
  * @param {Map} $percentage-black-hue - Map of hue names to darken percentages.
  */
 @mixin theme-mode-dark($black-color, $percentage-black-hue) {
-  // Custom black shades
-  --black-1: #{mix(black, $black-color, 60)};
-  --black-5: #{mix(black, $black-color, 20)};
+  body {
+    // Custom black shades
+    --black-1: #{mix(black, $black-color, 60)};
+    --black-5: #{mix(black, $black-color, 20)};
+    --black-1-rgb: #{hexToRGB(mix(black, $black-color, 60))};
+    --black-5-rgb: #{hexToRGB(mix(black, $black-color, 20))};
 
-  @each $color-hue, $percent in $percentage-black-hue {
-    --black-#{$color-hue}: #{mix(white, $black-color, $percent)};
-  }
-
-  // Custom black RGB
-  --black-1-rgb: #{hexToRGB(mix(black, $black-color, 60))};
-  --black-5-rgb: #{hexToRGB(mix(black, $black-color, 20))};
-
-  @each $color-hue, $percent in $percentage-black-hue {
-    --black-#{$color-hue}-rgb: #{hexToRGB(mix(white, $black-color, $percent))};
+    // Generated shades
+    @each $color-hue, $percent in $percentage-black-hue {
+      --black-#{$color-hue}: #{mix(white, $black-color, $percent)};
+      --black-#{$color-hue}-rgb: #{hexToRGB(
+          mix(white, $black-color, $percent)
+        )};
+    }
   }
 }
 
