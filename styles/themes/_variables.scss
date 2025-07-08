@@ -1,4 +1,4 @@
-// Base themes
+/** BASE THEMES */
 $default: (
   "colors": (
     "primary": #fdb022,
@@ -51,13 +51,13 @@ $blue-theme: (
   ),
 );
 
-// Theme colors
+/** THEME COLORS */
 $eui-theme-colors: (
   "default": map-get($default, "colors"),
   "blue": map-get($blue-theme, "colors"),
 ) !default;
 
-// Theme modes
+/** THEME MODES */
 $eui-theme-colors-mode: (
   "default": map-get($default, "mode"),
   "blue": map-get($blue-theme, "mode"),
@@ -84,7 +84,10 @@ $eui-default-theme-shape: (
   ),
 ) !default;
 
-/** COMPONENT VARIABLE STYLE */
+$eui-theme-shape: (
+  "default": $eui-default-theme-shape,
+) !default;
+
 $eui-default-theme-component: (
   "body-bg": #f5f8fa,
 
@@ -119,10 +122,6 @@ $eui-default-theme-component: (
   "shadow-large": 0 4px 6px rgba(0, 0, 0, 0.15),
   "shadow-big": 0 6px 10px rgba(0, 0, 0, 0.18),
   "shadow-huge": 0 8px 16px rgba(0, 0, 0, 0.2),
-) !default;
-
-$eui-theme-shape: (
-  "default": $eui-default-theme-shape,
 ) !default;
 
 $eui-theme-component: (
