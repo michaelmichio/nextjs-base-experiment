@@ -20,14 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" theme="default" theme-mode="light" theme-fontsize="medium">
-      <body
-        theme-color="default"
-        theme-shape="rounded"
-        className={`${inter.className} antialiased`}
-      >
-        {children}
-      </body>
+    <html lang="en">
+      <body className={`${inter.className} antialiased`}>{children}</body>
     </html>
   );
 }
