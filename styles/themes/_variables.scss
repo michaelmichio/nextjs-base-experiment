@@ -1,0 +1,256 @@
+// Base themes
+$default: (
+  "colors": (
+    "primary": #fdb022,
+    "secondary": #1c62ae,
+    "border-dark-primary": #363636,
+    "background-dark-primary": #1d1d1d,
+
+    "success": #1cbf73,
+    "info": #189ee1,
+    "danger": #e11818,
+    "warning": #f9a620,
+
+    "light": #dae2ee,
+    "dark": #000,
+  ),
+  "mode": (
+    "light": (
+      "black": #141414,
+      "white": #fff,
+    ),
+    "dark": (
+      "black": #fff,
+      "white": #141414,
+    ),
+  ),
+) !default;
+
+$blue-theme: (
+  "colors": (
+    "primary": #0f7eb4,
+    "secondary": #606060,
+
+    "success": #1cbf73,
+    "info": #189ee1,
+    "danger": #e11818,
+    "warning": #f9a620,
+
+    "light": #dae2ee,
+    "dark": #000,
+  ),
+  "mode": (
+    "light": (
+      "black": #141414,
+      "white": #fff,
+    ),
+    "dark": (
+      "black": #fff,
+      "white": #141414,
+    ),
+  ),
+);
+
+// Theme colors
+$eui-theme-colors: (
+  "default": map-get($default, "colors"),
+  "blue": map-get($blue-theme, "colors"),
+) !default;
+
+// Theme modes
+$eui-theme-colors-mode: (
+  "default": map-get($default, "mode"),
+  "blue": map-get($blue-theme, "mode"),
+) !default;
+
+$eui-default-theme-shape: (
+  "square": (
+    "border-radius": 0,
+    "border-radius-sm": 0,
+    "border-radius-lg": 0,
+    "border-radius-pill": 0,
+  ),
+  "rounded": (
+    "border-radius": 0.3rem,
+    "border-radius-sm": 0.4rem,
+    "border-radius-lg": 0.8rem,
+    "border-radius-pill": 7.14286rem,
+  ),
+  "circle": (
+    "border-radius": 3rem,
+    "border-radius-sm": 3rem,
+    "border-radius-lg": 3rem,
+    "border-radius-pill": 3rem,
+  ),
+) !default;
+
+/** COMPONENT VARIABLE STYLE */
+$eui-default-theme-component: (
+  "body-bg": #f5f8fa,
+
+  "margin-xmini": 0.25rem,
+  "margin-mini": 0.5rem,
+  "margin-tiny": 0.75rem,
+  "margin-small": 1rem,
+  "margin-medium": 1.15rem,
+  "margin-large": 1.5rem,
+  "margin-big": 1.75rem,
+  "margin-huge": 2rem,
+  "margin-massive": 2.25rem,
+
+  "padding-xmini": 0.25rem,
+  "padding-mini": 0.5rem,
+  "padding-tiny": 0.75rem,
+  "padding-small": 1rem,
+  "padding-medium": 1.15rem,
+  "padding-large": 1.5rem,
+  "padding-big": 1.75rem,
+  "padding-huge": 2rem,
+  "padding-massive": 2.25rem,
+
+  "border-thin": 1px,
+  "border-semibold": 2px,
+  "border-bold": 3px,
+  "border-xbold": 4px,
+  "border-xxbold": 5px,
+
+  "shadow-small": 0 1px 2px rgba(0, 0, 0, 0.1),
+  "shadow-medium": 0 2px 4px rgba(0, 0, 0, 0.12),
+  "shadow-large": 0 4px 6px rgba(0, 0, 0, 0.15),
+  "shadow-big": 0 6px 10px rgba(0, 0, 0, 0.18),
+  "shadow-huge": 0 8px 16px rgba(0, 0, 0, 0.2),
+) !default;
+
+$eui-theme-shape: (
+  "default": $eui-default-theme-shape,
+) !default;
+
+$eui-theme-component: (
+  "default": $eui-default-theme-component,
+) !default;
+
+$eui-theme-font: (
+  "roboto": "'Roboto', sans-serif",
+  "ubuntu": "'Ubuntu', sans-serif",
+  "arial": "Arial, sans-serif",
+) !default;
+
+$eui-theme-font-sizing: (
+  "mini": 0.75rem,
+  "tiny": 0.8125rem,
+  "small": 0.875rem,
+  "medium": 0.9375rem,
+  "large": 1rem,
+  "big": 1.125rem,
+  "huge": 1.3125rem,
+  "massive": 1.4375rem,
+) !default;
+
+$eui-theme-spacers: (
+  1: 0.267rem,
+  2: 0.333rem,
+  3: 0.533rem,
+  4: 0.667rem,
+  5: 0.8rem,
+  6: 1.067rem,
+  7: 1.133rem,
+  8: 1.333rem,
+  9: 1.6rem,
+  10: 2.133rem,
+  11: 2.533rem,
+  12: 2.667rem,
+) !default;
+
+/** COLORED HUE - LIGHT THEME */
+$color-hue-lighten-light: (
+  1: 98.5%,
+  5: 97.5%,
+  10: 96.5%,
+  25: 94%,
+  50: 90%,
+  75: 85%,
+  100: 80%,
+  150: 70%,
+  200: 60%,
+  300: 40%,
+  350: 30%,
+  400: 20%,
+  500: 0%,
+) !default;
+
+$color-hue-darken-light: (
+  600: 20%,
+  700: 40%,
+  750: 50%,
+  800: 60%,
+  900: 80%,
+) !default;
+
+/** COLORED HUE - DARK THEME */
+$color-hue-lighten-dark: (
+  1: 99%,
+  5: 98%,
+  10: 96%,
+  25: 94%,
+  50: 90%,
+  75: 85%,
+  100: 80%,
+  150: 70%,
+  200: 60%,
+  300: 40%,
+  350: 30%,
+  400: 20%,
+  500: 0%,
+) !default;
+
+$color-hue-darken-dark: (
+  600: 20%,
+  700: 40%,
+  750: 50%,
+  800: 60%,
+  900: 80%,
+) !default;
+
+/** BLACK HUE - LIGHT THEME */
+$black-hue-light: (
+  1: 99%,
+  5: 98%,
+  10: 97.5%,
+  25: 96.5%,
+  50: 94.5%,
+  75: 90.75%,
+  100: 88%,
+  150: 85.25%,
+  200: 77%,
+  300: 66%,
+  350: 63.25%,
+  400: 55%,
+  500: 44%,
+  600: 33%,
+  700: 22%,
+  750: 19.25%,
+  800: 11%,
+  900: 0%,
+) !default;
+
+/** BLACK HUE - DARK THEME */
+$black-hue-dark: (
+  1: 0.1%,
+  5: 0.5%,
+  10: 1%,
+  25: 2.5%,
+  50: 5%,
+  75: 7.5%,
+  100: 10%,
+  150: 15%,
+  200: 20%,
+  300: 30%,
+  350: 35%,
+  400: 40%,
+  500: 50%,
+  600: 60%,
+  700: 70%,
+  750: 75%,
+  800: 90%,
+  900: 100%,
+) !default;

@@ -1,0 +1,143 @@
+@mixin theme-color-hue(
+  $theme-colors,
+  $theme-colors-mode,
+  $low-mix,
+  $high-mix,
+  $percentage-hue-lighten,
+  $percentage-hue-darken
+) {
+  @each $color-group, $color-values in $eui-theme-colors {
+    $low-color: resolve-mix-color($theme-colors-mode, $low-mix, $color-group);
+    $high-color: resolve-mix-color($theme-colors-mode, $high-mix, $color-group);
+
+    body[theme-color="#{$color-group}"] {
+      // Basic color variables
+      @each $color-key, $base in $color-values {
+        --#{$color-key}: #{$base};
+        --#{$color-key}-500: #{$base};
+        --#{$color-key}-rgb: #{hexToRGB($base)};
+        --#{$color-key}-500-rgb: #{hexToRGB($base)};
+        --#{$color-key}-cc: #{colorContrast($base)};
+        --#{$color-key}-500-cc: #{colorContrast($base)};
+
+        // Lighten
+        @each $hue, $percent in $percentage-hue-lighten {
+          $lightened: mix($low-color, $base, $percent);
+          --#{$color-key}-#{$hue}: #{$lightened};
+          --#{$color-key}-#{$hue}-rgb: #{hexToRGB($lightened)};
+          --#{$color-key}-#{$hue}-cc: #{colorContrast($lightened)};
+        }
+
+        // Darken
+        @each $hue, $percent in $percentage-hue-darken {
+          $darkened: mix($high-color, $base, $percent);
+          --#{$color-key}-#{$hue}: #{$darkened};
+          --#{$color-key}-#{$hue}-rgb: #{hexToRGB($darkened)};
+          --#{$color-key}-#{$hue}-cc: #{colorContrast($darkened)};
+        }
+      }
+    }
+  }
+
+  // Theme shape per color group
+  @each $theme-group, $shape-map in $eui-theme-shape {
+    body[theme-color="#{$theme-group}"] {
+      @each $shape-type, $values in $shape-map {
+        &[theme-shape="#{$shape-type}"] {
+          @each $key, $val in $values {
+            --#{$key}: #{$val};
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin theme-mode-light($black-color, $percentage-black-hue) {
+  @each $color-hue, $percent in $percentage-black-hue {
+    --black-#{$color-hue}: #{mix(white, $black-color, $percent)};
+  }
+
+  @each $color-hue, $percent in $percentage-black-hue {
+    --black-#{$color-hue}-rgb: #{hexToRGB(mix(white, $black-color, $percent))};
+  }
+}
+
+@mixin theme-mode-dark($black-color, $percentage-black-hue) {
+  // custom
+  --black-1: #{mix(black, $black-color, 60)};
+  --black-5: #{mix(black, $black-color, 20)};
+
+  // generated
+  @each $color-hue, $percent in $percentage-black-hue {
+    --black-#{$color-hue}: #{mix(white, $black-color, $percent)};
+  }
+
+  // custom rgb
+  --black-1-rgb: #{hexToRGB(mix(black, $black-color, 60))};
+  --black-5-rgb: #{hexToRGB(mix(black, $black-color, 20))};
+
+  // generated rgb
+  @each $color-hue, $percent in $percentage-black-hue {
+    --black-#{$color-hue}-rgb: #{hexToRGB(mix(white, $black-color, $percent))};
+  }
+}
+
+@mixin apply-theme-mode(
+  $theme-mode,
+  $low-mix,
+  $high-mix,
+  $lighten,
+  $darken,
+  $hide-class: null
+) {
+  html[theme-mode="#{$theme-mode}"] {
+    @if $hide-class == "light" {
+      .light-hide {
+        display: none !important;
+      }
+    }
+
+    @if $hide-class == "dark" {
+      .dark-hide {
+        display: none !important;
+      }
+    }
+
+    @include theme-color-hue(
+      $eui-theme-colors,
+      $eui-theme-colors-mode,
+      $low-mix,
+      $high-mix,
+      $lighten,
+      $darken
+    );
+  }
+}
+
+@mixin make-grid-columns(
+  $columns: $grid-columns,
+  $gutter: $grid-gutter-width,
+  $breakpoints: $grid-breakpoints,
+  $prefix: ""
+) {
+  @each $breakpoint in map-keys($breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $breakpoints);
+
+    @include media-breakpoint-up($breakpoint, $breakpoints) {
+      @each $key, $value in $eui-theme-spacers {
+        $class: eui-g#{$infix}-#{$key};
+
+        .#{$class},
+        .eui.gx#{$infix}-#{$key} {
+          --#{$prefix}gutter-x: #{$value};
+        }
+
+        .#{$class},
+        .eui-gy#{$infix}-#{$key} {
+          --#{$prefix}gutter-y: #{$value};
+        }
+      }
+    }
+  }
+}
