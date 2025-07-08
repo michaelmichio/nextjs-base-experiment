@@ -1,0 +1,182 @@
+/**
+ * Generates CSS variables for color themes including hue variations.
+ *
+ * @param {Map} $theme-colors - Theme color definitions (e.g., primary, secondary).
+ * @param {Map} $theme-colors-mode - Theme mode map containing light/dark modes.
+ * @param {Map} $low-mix - Base color to mix when lightening.
+ * @param {Map} $high-mix - Base color to mix when darkening.
+ * @param {Map} $percentage-hue-lighten - Map of lightening steps and percentages.
+ * @param {Map} $percentage-hue-darken - Map of darkening steps and percentages.
+ */
+@mixin theme-color-hue(
+  $theme-colors,
+  $theme-colors-mode,
+  $low-mix,
+  $high-mix,
+  $percentage-hue-lighten,
+  $percentage-hue-darken
+) {
+  @each $color-group, $color-values in $eui-theme-colors {
+    $low-color: resolve-mix-color($theme-colors-mode, $low-mix, $color-group);
+    $high-color: resolve-mix-color($theme-colors-mode, $high-mix, $color-group);
+
+    body[theme-color="#{$color-group}"] {
+      // Base and shade variables for each color
+      @each $color-key, $base in $color-values {
+        --#{$color-key}: #{$base};
+        --#{$color-key}-500: #{$base};
+        --#{$color-key}-rgb: #{hexToRGB($base)};
+        --#{$color-key}-500-rgb: #{hexToRGB($base)};
+        --#{$color-key}-cc: #{colorContrast($base)};
+        --#{$color-key}-500-cc: #{colorContrast($base)};
+
+        // Generate lightened shades
+        @each $hue, $percent in $percentage-hue-lighten {
+          $lightened: mix($low-color, $base, $percent);
+          --#{$color-key}-#{$hue}: #{$lightened};
+          --#{$color-key}-#{$hue}-rgb: #{hexToRGB($lightened)};
+          --#{$color-key}-#{$hue}-cc: #{colorContrast($lightened)};
+        }
+
+        // Generate darkened shades
+        @each $hue, $percent in $percentage-hue-darken {
+          $darkened: mix($high-color, $base, $percent);
+          --#{$color-key}-#{$hue}: #{$darkened};
+          --#{$color-key}-#{$hue}-rgb: #{hexToRGB($darkened)};
+          --#{$color-key}-#{$hue}-cc: #{colorContrast($darkened)};
+        }
+      }
+    }
+  }
+
+  // Generate shape-related variables per theme and shape type
+  @each $theme-group, $shape-map in $eui-theme-shape {
+    body[theme-color="#{$theme-group}"] {
+      @each $shape-type, $values in $shape-map {
+        &[theme-shape="#{$shape-type}"] {
+          @each $key, $val in $values {
+            --#{$key}: #{$val};
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Generates black color shades and their RGB values for light mode.
+ *
+ * @param {Color} $black-color - The base black color for mixing.
+ * @param {Map} $percentage-black-hue - Map of hue names to lighten percentages.
+ */
+@mixin theme-mode-light($black-color, $percentage-black-hue) {
+  @each $color-hue, $percent in $percentage-black-hue {
+    --black-#{$color-hue}: #{mix(white, $black-color, $percent)};
+  }
+
+  @each $color-hue, $percent in $percentage-black-hue {
+    --black-#{$color-hue}-rgb: #{hexToRGB(mix(white, $black-color, $percent))};
+  }
+}
+
+/**
+ * Generates black color shades and their RGB values for dark mode.
+ * Includes custom overrides for black-1 and black-5.
+ *
+ * @param {Color} $black-color - The base black color for mixing.
+ * @param {Map} $percentage-black-hue - Map of hue names to darken percentages.
+ */
+@mixin theme-mode-dark($black-color, $percentage-black-hue) {
+  // Custom black shades
+  --black-1: #{mix(black, $black-color, 60)};
+  --black-5: #{mix(black, $black-color, 20)};
+
+  @each $color-hue, $percent in $percentage-black-hue {
+    --black-#{$color-hue}: #{mix(white, $black-color, $percent)};
+  }
+
+  // Custom black RGB
+  --black-1-rgb: #{hexToRGB(mix(black, $black-color, 60))};
+  --black-5-rgb: #{hexToRGB(mix(black, $black-color, 20))};
+
+  @each $color-hue, $percent in $percentage-black-hue {
+    --black-#{$color-hue}-rgb: #{hexToRGB(mix(white, $black-color, $percent))};
+  }
+}
+
+/**
+ * Applies theme mode including color hues and visibility toggling.
+ *
+ * @param {String} $theme-mode - Either "light" or "dark".
+ * @param {Map} $low-mix - Base mix color for lightening.
+ * @param {Map} $high-mix - Base mix color for darkening.
+ * @param {Map} $lighten - Lightening percentages.
+ * @param {Map} $darken - Darkening percentages.
+ * @param {String|null} $hide-class - Optional class to hide elements ("light" or "dark").
+ */
+@mixin apply-theme-mode(
+  $theme-mode,
+  $low-mix,
+  $high-mix,
+  $lighten,
+  $darken,
+  $hide-class: null
+) {
+  html[theme-mode="#{$theme-mode}"] {
+    @if $hide-class == "light" {
+      .light-hide {
+        display: none !important;
+      }
+    }
+
+    @if $hide-class == "dark" {
+      .dark-hide {
+        display: none !important;
+      }
+    }
+
+    @include theme-color-hue(
+      $eui-theme-colors,
+      $eui-theme-colors-mode,
+      $low-mix,
+      $high-mix,
+      $lighten,
+      $darken
+    );
+  }
+}
+
+/**
+ * Generates grid gutter utilities per breakpoint and spacing scale.
+ *
+ * @param {Number} $columns - Number of grid columns.
+ * @param {Length} $gutter - Default gutter width.
+ * @param {Map} $breakpoints - Breakpoint map (e.g. sm, md, lg).
+ * @param {String} $prefix - Optional prefix for variable names.
+ */
+@mixin make-grid-columns(
+  $columns: $grid-columns,
+  $gutter: $grid-gutter-width,
+  $breakpoints: $grid-breakpoints,
+  $prefix: ""
+) {
+  @each $breakpoint in map-keys($breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $breakpoints);
+
+    @include media-breakpoint-up($breakpoint, $breakpoints) {
+      @each $key, $value in $eui-theme-spacers {
+        $class: eui-g#{$infix}-#{$key};
+
+        .#{$class},
+        .eui.gx#{$infix}-#{$key} {
+          --#{$prefix}gutter-x: #{$value};
+        }
+
+        .#{$class},
+        .eui-gy#{$infix}-#{$key} {
+          --#{$prefix}gutter-y: #{$value};
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,82 @@
+@use "sass:math";
+
+/**
+ * Converts a HEX color to RGB components.
+ *
+ * @param {Color} $hex - The HEX color (e.g., #ffffff).
+ * @param {Boolean} $as-string - If true, returns the result as a comma-separated string.
+ * @return {List|String} RGB values either as a list (r, g, b) or a string "r, g, b".
+ */
+@function hexToRGB($hex, $as-string: false) {
+  @if type-of($hex) != "color" {
+    @warn "hexToRGB() expects a color value, got: #{$hex}";
+    @return 0, 0, 0;
+  }
+
+  $r: red($hex);
+  $g: green($hex);
+  $b: blue($hex);
+
+  @if $as-string {
+    @return "#{$r}, #{$g}, #{$b}";
+  } @else {
+    @return $r, $g, $b;
+  }
+}
+
+/**
+ * Determines the best contrast color (black or white) for a given background color,
+ * based on brightness, using a simplified WCAG 2.0 formula.
+ *
+ * @param {Color} $color - The base background color.
+ * @param {Color} $white - The preferred light color (default: white).
+ * @param {Color} $black - The preferred dark color (default: black).
+ * @return {Color} The color with better contrast for accessibility.
+ */
+@function colorContrast($color, $white: white, $black: black) {
+  $brightness: math.div(
+    (red($color) * 299 + green($color) * 587 + blue($color) * 114),
+    1000
+  );
+
+  $white-brightness: math.div(
+    (red($white) * 299 + green($white) * 587 + blue($white) * 114),
+    1000
+  );
+
+  @return if($brightness < math.div($white-brightness, 2), $white, $black);
+}
+
+/**
+ * Retrieves a key from a map based on a numeric index.
+ *
+ * @param {Map} $map - The map to extract the key from.
+ * @param {Number} $index - The 1-based index of the desired key.
+ * @return {*} The key at the given index position.
+ */
+@function index-to-key($map, $index) {
+  $keys: map-keys($map);
+  @return nth($keys, $index);
+}
+
+/**
+ * Resolves a color from a theme-colors-mode map using a given mix key.
+ *
+ * @param {Map} $theme-colors-mode - The theme's color mode map (light/dark).
+ * @param {Map} $mix - A map containing two entries used to resolve the color.
+ * @param {String} $color-group - The name of the theme color group to use (e.g. "default", "blue").
+ * @return {Color|null} The resolved color or null if not found.
+ */
+@function resolve-mix-color($theme-colors-mode, $mix, $color-group) {
+  $mode-group: map-get($theme-colors-mode, $color-group);
+
+  @if $mode-group == null {
+    @warn "Color group `#{$color-group}` not found in theme-colors-mode.";
+    @return null;
+  }
+
+  $mode-key: index-to-key($mix, 1);
+  $color-key: index-to-key($mix, 2);
+
+  @return map-get(map-get($mode-group, $mode-key), $color-key);
+}
