@@ -1,6 +1,18 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 
 export default function Home() {
+  const [toggleTheme, setToggleTheme] = useState<boolean>(false);
+
+  useEffect(() => {
+    document.documentElement.setAttribute(
+      "theme-mode",
+      `${toggleTheme ? "dark" : "light"}`
+    );
+  }, [toggleTheme]);
+
   return (
     <div className="tw-p-4 tw:space-y-3">
       <h2 className="tw:text-xl tw:font-semibold">Tailwind Heading</h2>
@@ -11,7 +23,14 @@ export default function Home() {
       >
         Tailwind Small Text
       </p>
-      <Button>Bootstrap Button</Button>
+      <Button
+        onClick={() => setToggleTheme((prev: boolean) => !prev)}
+        className="border-0"
+        variant="primary"
+        style={{ backgroundColor: "var(--primary-400)" }}
+      >
+        Bootstrap Button
+      </Button>
     </div>
   );
 }
