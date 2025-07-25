@@ -1,50 +1,53 @@
 /** BASE THEMES */
+
+// TAILWIND
 $default: (
   "colors": (
-    "primary": #fdb022,
-    "secondary": #1c62ae,
+    "primary": #fbbf24,
+    "secondary": #1d4ed8,
 
-    "success": #1cbf73,
-    "info": #189ee1,
-    "danger": #e11818,
-    "warning": #f9a620,
+    "success": #22c55e,
+    "info": #0ea5e9,
+    "danger": #dc2626,
+    "warning": #facc15,
 
-    "black": #141414,
-    "white": #fff,
+    "black": #141414, // 0f172a
+    "white": #ffffff,
   ),
   "mode": (
     "light": (
-      "black": #141414,
-      "white": #fff,
+      "black": #141414, // 0f172a
+      "white": #ffffff,
     ),
     "dark": (
-      "black": #fff,
-      "white": #141414,
+      "black": #ffffff,
+      "white": #141414, // 0f172a
     ),
   ),
 ) !default;
 
+// BOOTSTRAP
 $blue-theme: (
   "colors": (
-    "primary": #0f7eb4,
-    "secondary": #606060,
+    "primary": #0d6efd,
+    "secondary": #6c757d,
 
-    "success": #1cbf73,
-    "info": #189ee1,
-    "danger": #e11818,
-    "warning": #f9a620,
+    "success": #198754,
+    "info": #0dcaf0,
+    "danger": #dc3545,
+    "warning": #ffc107,
 
-    "black": #141414,
-    "white": #fff,
+    "black": #000000,
+    "white": #ffffff,
   ),
   "mode": (
     "light": (
-      "black": #141414,
-      "white": #fff,
+      "black": #000000,
+      "white": #ffffff,
     ),
     "dark": (
-      "black": #fff,
-      "white": #141414,
+      "black": #ffffff,
+      "white": #000000,
     ),
   ),
 );
