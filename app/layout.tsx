@@ -1,6 +1,7 @@
+import MainHeader from "@/features/layouts/headers/MainHeader";
+import "bootstrap/dist/css/bootstrap.min.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.scss";
 
 const inter = Inter({
@@ -24,8 +25,9 @@ export default function RootLayout({
       <body
         theme-color="default"
         theme-shape="rounded"
-        className={`${inter.className} antialiased`}
+        className={`${inter.className} tw:antialiased`}
       >
+        <MainHeader />
         {children}
       </body>
     </html>
