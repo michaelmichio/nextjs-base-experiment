@@ -70,36 +70,41 @@
  * @param {Map} $percentage-black-hue - Map of hue names to lighten percentages.
  */
 @mixin theme-mode-light($black-color, $percentage-black-hue) {
-  @each $color-hue, $percent in $percentage-black-hue {
-    --black-#{$color-hue}: #{mix(white, $black-color, $percent)};
-  }
-
-  @each $color-hue, $percent in $percentage-black-hue {
-    --black-#{$color-hue}-rgb: #{hexToRGB(mix(white, $black-color, $percent))};
+  body {
+    @each $color-hue, $percent in $percentage-black-hue {
+      --black-#{$color-hue}: #{mix(white, $black-color, $percent)};
+      --black-#{$color-hue}-rgb: #{hexToRGB(
+          mix(white, $black-color, $percent)
+        )};
+    }
   }
 }
 
 /**
- * Generates black color shades and their RGB values for dark mode.
- * Includes custom overrides for black-1 and black-5.
+ * Generates the `--black-*` color variables for dark mode.
  *
- * @param {Color} $black-color - The base black color for mixing.
- * @param {Map} $percentage-black-hue - Map of hue names to darken percentages.
+ * In dark mode, "black" variables are visually lighter shades,
+ * created by mixing `white` toward the `$black-color` (usually white).
+ * This maintains semantic consistency (`--black-200`, etc.) while inverting visual logic.
+ *
+ * Also includes specific overrides for `--black-1` and `--black-5`,
+ * as well as corresponding RGB variables useful for `rgba()` use cases.
+ *
+ * @param {Color} $black-color - The visual base color in dark mode,
+ *        typically `white`, used to simulate the inverse of black shades.
+ * @param {Map} $percentage-black-hue - A map of hue keys (e.g., 1, 5, 10, 200, 900)
+ *        to percentage values used to generate lighter or darker variants.
  */
 @mixin theme-mode-dark($black-color, $percentage-black-hue) {
   // Custom black shades
   --black-1: #{mix(black, $black-color, 60)};
   --black-5: #{mix(black, $black-color, 20)};
-
-  @each $color-hue, $percent in $percentage-black-hue {
-    --black-#{$color-hue}: #{mix(white, $black-color, $percent)};
-  }
-
-  // Custom black RGB
   --black-1-rgb: #{hexToRGB(mix(black, $black-color, 60))};
   --black-5-rgb: #{hexToRGB(mix(black, $black-color, 20))};
 
+  // Auto-generated shades and their RGB equivalents
   @each $color-hue, $percent in $percentage-black-hue {
+    --black-#{$color-hue}: #{mix(white, $black-color, $percent)};
     --black-#{$color-hue}-rgb: #{hexToRGB(mix(white, $black-color, $percent))};
   }
 }
