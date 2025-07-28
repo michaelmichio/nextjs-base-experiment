@@ -127,7 +127,7 @@
   $darken,
   $hide-class: null
 ) {
-  html[theme-mode="#{$theme-mode}"] {
+  html[data-theme="#{$theme-mode}"] {
     @if $hide-class == "light" {
       .light-hide {
         display: none !important;
