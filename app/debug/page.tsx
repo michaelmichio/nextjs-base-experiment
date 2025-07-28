@@ -36,7 +36,7 @@ export default function DebugPage() {
         </p>
       </div>
 
-      <button className="bg-primary text-gray-50 hover:-brightness-[110%] active:brightness-[80%]">
+      <button className="bg-primary-300/80 text-gray-50 hover:-brightness-[110%] active:brightness-[80%]">
         Click
       </button>
     </div>

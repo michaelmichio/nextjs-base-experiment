@@ -1,8 +1,0 @@
-@import "tailwindcss";
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
-@import "../styles/styles.scss";
-
-body {
-  background-color: var(--white) !important;
-  color: var(--black);
-}
