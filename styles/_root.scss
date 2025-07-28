@@ -79,17 +79,16 @@
 
     // SYSTEM DARK
     @media (prefers-color-scheme: dark) {
-      html[theme-mode="system"] body[theme-color="#{$mode-key}"] {
+      html[data-theme="system"] body[theme-color="#{$mode-key}"] {
         --white: #{$color-mode-dark-white};
         --black: #{$color-mode-dark-black};
         @include theme-mode-dark($color-mode-dark-white, $black-hue-dark);
-
       }
     }
 
     // SYSTEM LIGHT
     @media (prefers-color-scheme: light) {
-      html[theme-mode="system"] body[theme-color="#{$mode-key}"] {
+      html[data-theme="system"] body[theme-color="#{$mode-key}"] {
         --white: #{$color-mode-light-white};
         --black: #{$color-mode-light-black};
         @include theme-mode-light($color-mode-light-black, $black-hue-light);
@@ -97,18 +96,17 @@
     }
 
     // EXPLICIT LIGHT
-    html[theme-mode="light"] body[theme-color="#{$mode-key}"] {
+    html[data-theme="light"] body[theme-color="#{$mode-key}"] {
       --white: #{$color-mode-light-white};
       --black: #{$color-mode-light-black};
       @include theme-mode-light($color-mode-light-black, $black-hue-light);
     }
 
     // EXPLICIT DARK
-    html[theme-mode="dark"] body[theme-color="#{$mode-key}"] {
+    html[data-theme="dark"] body[theme-color="#{$mode-key}"] {
       --white: #{$color-mode-dark-white};
       --black: #{$color-mode-dark-black};
       @include theme-mode-dark($color-mode-dark-white, $black-hue-dark);
-
     }
   }
 }

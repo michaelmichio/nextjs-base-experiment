@@ -1,5 +1,4 @@
 import MainHeader from "@/features/layouts/headers/MainHeader";
-import "bootstrap/dist/css/bootstrap.min.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.scss";
@@ -21,10 +20,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" theme="default" theme-mode="light" theme-fontsize="medium">
+    <html lang="en" data-theme="light">
       <body
         theme-color="default"
-        theme-shape="rounded"
         className={`${inter.className} tw:antialiased`}
       >
         <MainHeader />
